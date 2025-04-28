@@ -7,9 +7,13 @@
 
         <link rel="stylesheet" href="style.css" />
 
-        <<link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
         <link
             rel="shortcut icon"
             href="./assets/icons/pokemon-pokemon-ball-free-graphics-9ad9ff.png"
@@ -17,7 +21,7 @@
         />
     </head>
 
-    <body>
+    <body onload="init()">
         <header class="bg-gray">
             <div class="max-width-1920 paddinglr-60 header-div">
                 <div class="header-left img-hover-white">
@@ -41,8 +45,9 @@
         </header>
 
         <main class="bg-red">
-            <div class="max-width-1920 main-div">
+            <div id="content" class="max-width-1920 main-div">
                 <!--GENERATE VIA JS-->
+
                 <div id="pokemon1" class="poke-card">
                     <div class="card-top">
                         <h2>Bulbasaur</h2>
@@ -53,10 +58,16 @@
                             <span>Grass</span>
                             <span>Bug</span>
                         </div>
-                        <img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg" alt="">
+                        <img
+                            class="poke-img"
+                            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg"
+                            alt=""
+                        />
                     </div>
+                    <div class="card-bg"></div>
                 </div>
-                <div class="card-bg"></div>
+                
+
             </div>
         </main>
 
@@ -66,6 +77,6 @@
             </div>
         </footer>
     </body>
-
+    <script src="./templatefunctions.js"></script>
     <script src="./script.js"></script>
 </html>

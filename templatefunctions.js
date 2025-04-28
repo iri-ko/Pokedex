@@ -18,5 +18,5 @@ function getPokeCardTemplate(pokeArray, pokeCounter) {
 
 
 function getTypeTemplate(typeObject) {
-    return `<span>${typeObject.type.name}</span>`; 
+    return `<span class="${typeObject.type.name}">${typeObject.type.name}</span>`; 
 }

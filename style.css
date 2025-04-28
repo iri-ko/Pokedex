@@ -32,6 +32,83 @@ html {
     filter: drop-shadow(0 0 10px #ffffff);
 }
 
+.normal {
+    background-color: #9fa19f;
+}
+
+.fairy {
+    background-color: #ef70ef;
+}
+
+.fighting {
+    background-color:
+    #ff8000;
+}
+
+.flying {
+    background-color: #81b9ef
+}
+
+.poison {
+    background-color: #9141cb;
+}
+
+.ground {
+    background-color: #915121;
+}
+
+.rock {
+    background-color: #afa981;
+}
+
+.bug {
+    background-color: #7f8930;
+}
+
+.ghost {
+    background-color: #704170;
+}
+
+.steel {
+    background-color: #60a1b8;
+}
+
+.stellar {
+    background-color: #40b5a5
+}
+
+.fire {
+    background-color: #e62829;
+}
+
+.water {
+    background-color: #2980ef;
+}
+
+.grass {
+    background-color: #3fa129;
+}
+
+.electric {
+    background-color: #fac000;
+}
+
+.psychic {
+    background-color: #ef4179;
+}
+
+.ice {
+    background-color: #3dcef3;
+}
+
+.dragon {
+    background-color: #5060e1;
+}
+
+.dark {
+    background-color: #624d4e;
+}
+
 header {
     width: 100%;
     height: 100px;
@@ -88,7 +165,6 @@ main {
     background-size: cover;
     padding: 6rem;
 
-
     .main-div {
         display: flex;
         justify-content: flex-start;
@@ -96,7 +172,6 @@ main {
         gap: 80px;
 
         .poke-card {
-            background-color: rgb(0, 255, 0);
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -167,12 +242,9 @@ main {
                 border-bottom-left-radius: 10px;
                 border-top-left-radius: 10px;
                 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.486);
-                
-                
             }
         }
         .poke-card:hover {
-            background-color: rgb(238, 255, 0);
             cursor: pointer;
             z-index: 2;
         }

@@ -113,14 +113,23 @@ async function fetchPokemonDetails(counter) {
 function searchPokemon() {
     const usableInput = trimInputValue();
 
-    if (usableInput.length < 3) {
-        const contentRef = document.getElementById("content");
-        contentRef.innerHTML = ""; // Clear the content if fewer than 3 characters are entered
+    // If the input is empty, load the original first 20 Pokémon
+    if (usableInput.length === 0) {
+        renderPokeCards(); // Re-render the original first 20 cards
         return;
     }
 
-    renderMatchedPokemon(usableInput); // Render matching Pokémon directly from `pokeArray`
+    // If fewer than three characters are entered, retain the current cards
+    if (usableInput.length < 3) {
+        console.log("Input too short to trigger search."); // Debugging message
+        return;
+    }
+
+    // Render matched Pokémon for valid input
+    renderMatchedPokemon(usableInput);
 }
+
+
 
 // Trim and Format User Input
 function trimInputValue() {

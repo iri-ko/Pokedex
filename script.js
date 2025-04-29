@@ -1,9 +1,40 @@
-let offset = 20; // Initial offset starts after the first 20 Pokémon
+// Global Variables
+let pokeArray = []; // Global Pokémon array
+let offset = 20; // Offset for pagination or fetching Pokémon
 
-function init() {
-    renderPokeCards();
+// Initialize the Application
+async function init() {
+    await fetchGlobalPokemonArray(); // Populate the global Pokémon array
+    renderPokeCards(); // Render the initial batch of Pokémon cards
 }
 
+// Fetch and Store the Global Pokémon Array
+async function fetchGlobalPokemonArray() {
+    try {
+        pokeArray = await fetchPokemonData(offset, 0); // Fetch Pokémon data and assign to global array
+    } catch (error) {
+        console.error("Failed to fetch Pokémon data:", error);
+    }
+}
+
+// Render All Pokémon Cards
+async function renderPokeCards() {
+    showSpinner();
+    hideButton();
+
+    try {
+        const delay = new Promise(resolve => setTimeout(resolve, 1000)); // Artificial delay for loading spinner
+        await Promise.all([fetchGlobalPokemonArray(), delay]); // Fetch Pokémon and wait
+        await renderCards(pokeArray); // Render all cards
+    } catch (error) {
+        console.error("An error occurred while rendering cards:", error);
+    } finally {
+        hideSpinner();
+        showButton();
+    }
+}
+
+// Utility Functions for UI Feedback
 function showSpinner() {
     const spinnerRef = document.getElementById("spinner");
     spinnerRef.style.display = "block";
@@ -15,125 +46,106 @@ function hideSpinner() {
 }
 
 function hideButton() {
-    const buttonRef = document.getElementById("spinner-div"); // Use getElementById here
+    const buttonRef = document.getElementById("spinner-div");
     buttonRef.style.display = "none";
 }
 
 function showButton() {
-    const buttonRef = document.getElementById("spinner-div"); // Use getElementById here
+    const buttonRef = document.getElementById("spinner-div");
     buttonRef.style.display = "block";
 }
 
-async function fetchData() {
-    return await fetchPokemonData(offset, 20);
-}
-
-async function renderCards(pokeArray) {
-    const contentRef = document.getElementById("content");
-    contentRef.innerHTML = ""; // Clear existing content
-
-    for (let pokeCounter = 0; pokeCounter < pokeArray.length; pokeCounter++) {
-        contentRef.innerHTML += getPokeCardTemplate(pokeArray, pokeCounter);
-        renderTypes(pokeCounter);
-    }
-    offset += 20; // Update the offset
-}
-async function renderPokeCards() {
-    showSpinner();
-    hideButton();
-
-    try {
-        const delay = new Promise(resolve => setTimeout(resolve, 5000)); // Ensure 5-second delay
-        const pokeArray = await Promise.all([fetchData(), delay]).then(([data]) => data);
-
-        await renderCards(pokeArray); // Render cards after fetching
-    } catch (error) {
-        console.error("An error occurred while rendering:", error);
-    } finally {
-        hideSpinner(); // Ensure spinner is hidden, regardless of success or failure
-        showButton();  // Re-show the button
-    }
-}
-
-
-
-
+// Fetch Pokémon Data from API
 async function fetchPokemonData(limit, offset) {
-    const pokeAPI = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`; //access basic API
+    const pokeAPI = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
     try {
-        const response = await fetch(pokeAPI); //waits for all data to be loaded from API
+        const response = await fetch(pokeAPI);
         if (!response.ok) {
-            //if something went wrong, error message
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const data = await response.json(); //turns data back into json for usability
-        return data.results; //returns array
+        const data = await response.json();
+        return data.results; // Array of basic Pokémon data
     } catch (error) {
         console.error("Failed to fetch Pokémon data:", error);
     }
 }
 
+// Render Pokémon Cards
+async function renderCards(pkeList) {
+    const contentRef = document.getElementById("content");
+    contentRef.innerHTML = ""; // Clear previous content
+
+    for (let pIndex = 0; pIndex < pkeList.length; pIndex++) {
+        contentRef.innerHTML += getPokeCardTemplate(pkeList, pIndex); // Generate cards with template
+        renderTypes(pIndex); // Render Pokémon types
+    }
+    offset += 20; // Update offset for pagination
+}
+
+// Render Types for Each Pokémon
 async function renderTypes(counter) {
-    const pokeInfo = await fetchPokemonDetails(counter); // Fetch details of a single Pokémon
+    const pokeInfo = await fetchPokemonDetails(counter);
     const typeRef = document.getElementById(`types${counter + 1}`);
     typeRef.innerHTML = ""; // Clear existing types
 
-    // Loop through the `types` array and render each type
-    for (
-        let typeCounter = 0;
-        typeCounter < pokeInfo.types.length;
-        typeCounter++
-    ) {
-        const typeObject = pokeInfo.types[typeCounter]; // Access the type object
-        typeRef.innerHTML += getTypeTemplate(typeObject); // Pass it to the template function
-        setCardBacground(typeObject, counter);
-    }
+    pokeInfo.types.forEach(typeObject => {
+        typeRef.innerHTML += getTypeTemplate(typeObject); // Render type spans
+        setCardBacground(typeObject, counter); // Set card background based on type
+    });
 }
 
+// Fetch Detailed Pokémon Information
 async function fetchPokemonDetails(counter) {
-    const infoAPI = `https://pokeapi.co/api/v2/pokemon/${counter + 1}`; //since link is identical for each API but just the numbe ris different, add 1 to counter of loop
+    const infoAPI = `https://pokeapi.co/api/v2/pokemon/${counter + 1}`;
     try {
         const response = await fetch(infoAPI);
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const typeInfo = await response.json();
-        return typeInfo;
+        return typeInfo; // Return detailed Pokémon data
     } catch (error) {
-        console.error("Failed to fetch Pokémon data:", error);
+        console.error("Failed to fetch Pokémon details:", error);
     }
 }
 
-function setCardBacground(type, cardCounter){
+// Search Pokémon Functionality
+function searchPokemon() {
+    const usableInput = trimInputValue();
+
+    if (usableInput.length < 3) {
+        const contentRef = document.getElementById("content");
+        contentRef.innerHTML = ""; // Clear the content if fewer than 3 characters are entered
+        return;
+    }
+
+    renderMatchedPokemon(usableInput); // Render matching Pokémon directly from `pokeArray`
+}
+
+// Trim and Format User Input
+function trimInputValue() {
+    const inputRef = document.getElementById("search-input");
+    const query = inputRef.value.trim().toLowerCase();
+    return query;
+}
+
+// Render Matching Pokémon Dynamically
+function renderMatchedPokemon(characters) {
+    const contentRef = document.getElementById("content");
+    contentRef.innerHTML = ""; // Clear previous content
+
+    for (let i = 0; i < pokeArray.length; i++) {
+        if (pokeArray[i].name.toLowerCase().includes(characters)) {
+            contentRef.innerHTML += getPokeCardTemplate(pokeArray, i); // Render matching cards
+            renderTypes(i); // Render types for the matched Pokémon
+        }
+    }
+}
+
+// Set Background Color of Cards Based on Type
+function setCardBacground(type, cardCounter) {
     const contentRef = document.getElementById(`pokemon${cardCounter + 1}`);
-    contentRef.classList.add(`${type.type.name}`)
+    if (contentRef) {
+        contentRef.classList.add(`${type.type.name}`); // Add class for type-based styling
+    }
 }
-
-
-function searchPokemon(){
-    const inputRef = document.getElementById('search-input'); 
-    
-    console.log(inputRef.value);
-    
-}
-
-
-
-
-
-//Suchfunktion
-// what I need: 
-    // ability to extract user input (starting from 3 characteristics?)
-    // access to the whole API
-        //but I only render 20, so do I need to fetch all 1300 Pokes?
-    // render accordinlgy, but also dynamically according to search
-        //how?
-        // work with 2 APIS - the big basic one and the specific PokeAPI
-    // not found message
-    // at least three characters required or search won't work
-
-
-//Design für Overlay
-    //allgemeine Daten
-    //Statuswerte
-    //Basisangriffe

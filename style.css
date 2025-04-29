@@ -11,7 +11,6 @@
 html {
     font-size: 62.5%;
 }
-    
 
 .max-width-1920 {
     max-width: 1920px;
@@ -285,7 +284,6 @@ main {
             margin-top: 100px;
         }
     }
-
 }
 
 footer {
@@ -300,6 +298,29 @@ footer {
     }
 }
 
+
+
+.overlay-div {
+    position: fixed;
+    top: 0;
+    z-index: 10000;
+    background-color: rgba(0, 0, 0, 0.644);
+    height: 100dvh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .info-sheet {
+        z-index: 10001;
+        height: 60vh;
+        width: 60dvw;
+        background-color: rgb(255, 0, 0);
+
+        border-radius: 20px;
+        border: white double 10px;
+    }
+}
 
 .d-none {
     display: none;

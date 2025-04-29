@@ -11,6 +11,7 @@
 html {
     font-size: 62.5%;
 }
+    
 
 .max-width-1920 {
     max-width: 1920px;
@@ -114,6 +115,7 @@ header {
     z-index: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
 
     .header-div {
         display: flex;
@@ -163,12 +165,16 @@ main {
     background-position: center;
     background-size: cover;
     padding: 6rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 
     .main-div {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         flex-wrap: wrap;
         gap: 80px;
+        padding-bottom: 80px;
 
         .poke-card {
             display: flex;
@@ -272,6 +278,14 @@ main {
             background-color: red;
         }
     }
+    .spinner-div {
+        padding-top: 100px;
+
+        #spinner {
+            margin-top: 100px;
+        }
+    }
+
 }
 
 footer {
@@ -284,4 +298,9 @@ footer {
     .footer-div {
         font-size: 20px;
     }
+}
+
+
+.d-none {
+    display: none;
 }

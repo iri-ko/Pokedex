@@ -7,7 +7,6 @@
 
         <link rel="stylesheet" href="style.css" />
 
-        <
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -15,9 +14,9 @@
             rel="stylesheet"
         />
         <link
-            rel="shortcut icon"
+            rel="icon"
+            type="image/png"
             href="./assets/icons/pokemon-pokemon-ball-free-graphics-9ad9ff.png"
-            type="image/x-icon"
         />
     </head>
 
@@ -34,8 +33,15 @@
                 </div>
 
                 <div id="search-div" class="search">
-                    <input type="text" />
+                    <input
+                        onkeyup="searchPokemon()"
+                        id="search-input"
+                        required
+                        placeholder="Search for Pokémon"
+                        type="text"
+                    />
                     <img
+                        onclick="searchPokemon()"
                         class="mag-class img-hover-white"
                         src="./assets/icons/search-regular-60.png"
                         alt=""
@@ -48,7 +54,55 @@
             <div id="content" class="max-width-1920 main-div">
                 <!--GENERATE VIA JS-->
             </div>
-            <div class="bottom-div"><button class="button">See more</button></div>
+            <div id="spinner-div" onclick="renderPokeCards()" class="bottom-div">
+                <button class="button">See more</button>
+            </div>
+
+            <div id="spinner" style="display: none;">
+                <svg
+                    width="100"
+                    height="100"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g>
+                        <g transform-origin="50 50">
+                            <!-- Red top half -->
+                            <path d="M10,50a40,40 0 1,1 80,0" fill="red" />
+
+                            <!-- White bottom half -->
+                            <path d="M90,50a40,40 0 1,1 -80,0" fill="white" />
+
+                            <!-- Black dividing line -->
+                            <line
+                                x1="10"
+                                y1="50"
+                                x2="90"
+                                y2="50"
+                                stroke="black"
+                                stroke-width="4"
+                            />
+
+                            <!-- Outer center circle -->
+                            <circle cx="50" cy="50" r="8" fill="black" />
+
+                            <!-- Inner center circle -->
+                            <circle cx="50" cy="50" r="4" fill="white" />
+                        </g>
+
+                        <!-- Rotation animation applied to this group -->
+                        <animateTransform
+                            attributeName="transform"
+                            attributeType="XML"
+                            type="rotate"
+                            from="0 50 50"
+                            to="360 50 50"
+                            dur="1.5s"
+                            repeatCount="indefinite"
+                        />
+                    </g>
+                </svg>
+            </div>
         </main>
 
         <footer class="bg-gray">

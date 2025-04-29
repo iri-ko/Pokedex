@@ -1,19 +1,62 @@
+let offset = 20; // Initial offset starts after the first 20 Pokémon
+
 function init() {
     renderPokeCards();
 }
 
-async function renderPokeCards() {
-    const pokeArray = await fetchPokemonData(20, 0); //access basic API with all Poke and their corresponding API
+function showSpinner() {
+    const spinnerRef = document.getElementById("spinner");
+    spinnerRef.style.display = "block";
+}
 
-    //render according to basic array for name, use counter for images and ID, as well as pass it to the renderTypes function to acess correspoding API.
+function hideSpinner() {
+    const spinnerRef = document.getElementById("spinner");
+    spinnerRef.style.display = "none";
+}
+
+function hideButton() {
+    const buttonRef = document.getElementById("spinner-div"); // Use getElementById here
+    buttonRef.style.display = "none";
+}
+
+function showButton() {
+    const buttonRef = document.getElementById("spinner-div"); // Use getElementById here
+    buttonRef.style.display = "block";
+}
+
+async function fetchData() {
+    return await fetchPokemonData(offset, 20);
+}
+
+async function renderCards(pokeArray) {
     const contentRef = document.getElementById("content");
-    contentRef.innerHTML = "";
+    contentRef.innerHTML = ""; // Clear existing content
 
     for (let pokeCounter = 0; pokeCounter < pokeArray.length; pokeCounter++) {
         contentRef.innerHTML += getPokeCardTemplate(pokeArray, pokeCounter);
         renderTypes(pokeCounter);
     }
+    offset += 20; // Update the offset
 }
+async function renderPokeCards() {
+    showSpinner();
+    hideButton();
+
+    try {
+        const delay = new Promise(resolve => setTimeout(resolve, 5000)); // Ensure 5-second delay
+        const pokeArray = await Promise.all([fetchData(), delay]).then(([data]) => data);
+
+        await renderCards(pokeArray); // Render cards after fetching
+    } catch (error) {
+        console.error("An error occurred while rendering:", error);
+    } finally {
+        hideSpinner(); // Ensure spinner is hidden, regardless of success or failure
+        showButton();  // Re-show the button
+    }
+}
+
+
+
 
 async function fetchPokemonData(limit, offset) {
     const pokeAPI = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`; //access basic API
@@ -67,10 +110,30 @@ function setCardBacground(type, cardCounter){
 }
 
 
-//button, 20 weitere Pokemon anzuzeigen
-    // wie bekomme ich es hin, dass immer 20 zum limit hinzugefügt werden?
+function searchPokemon(){
+    const inputRef = document.getElementById('search-input'); 
+    
+    console.log(inputRef.value);
+    
+}
+
+
+
+
+
+//Suchfunktion
+// what I need: 
+    // ability to extract user input (starting from 3 characteristics?)
+    // access to the whole API
+        //but I only render 20, so do I need to fetch all 1300 Pokes?
+    // render accordinlgy, but also dynamically according to search
+        //how?
+        // work with 2 APIS - the big basic one and the specific PokeAPI
+    // not found message
+    // at least three characters required or search won't work
+
+
 //Design für Overlay
     //allgemeine Daten
     //Statuswerte
     //Basisangriffe
-//Suchfunktion

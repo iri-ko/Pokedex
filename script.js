@@ -65,3 +65,12 @@ function setCardBacground(type, cardCounter){
     const contentRef = document.getElementById(`pokemon${cardCounter + 1}`);
     contentRef.classList.add(`${type.type.name}`)
 }
+
+
+//button, 20 weitere Pokemon anzuzeigen
+    // wie bekomme ich es hin, dass immer 20 zum limit hinzugefügt werden?
+//Design für Overlay
+    //allgemeine Daten
+    //Statuswerte
+    //Basisangriffe
+//Suchfunktion

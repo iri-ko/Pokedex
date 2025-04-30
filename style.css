@@ -325,3 +325,7 @@ footer {
 .d-none {
     display: none;
 }
+
+.not-found {
+    font-size: 40px;
+}

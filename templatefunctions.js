@@ -18,3 +18,7 @@ function getPokeCardTemplate(pkeList, pIndex) {
 function getTypeTemplate(typeObject) {
     return `<span class="${typeObject.type.name}">${typeObject.type.name}</span>`;
 }
+
+function getNotFoundTemplate(){
+    return `<p class="not-found">Pokémon not found</p>`;
+}

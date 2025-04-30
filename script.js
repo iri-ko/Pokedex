@@ -109,6 +109,14 @@ async function fetchPokemonDetails(counter) {
     }
 }
 
+// Set Background Color of Cards Based on Type
+function setCardBacground(type, cardCounter) {
+    const contentRef = document.getElementById(`pokemon${cardCounter + 1}`);
+    if (contentRef) {
+        contentRef.classList.add(`${type.type.name}`); // Add class for type-based styling
+    }
+}
+
 // Search Pokémon Functionality
 function searchPokemon() {
     const usableInput = trimInputValue();
@@ -139,22 +147,25 @@ function trimInputValue() {
 }
 
 // Render Matching Pokémon Dynamically
+// Render Matching Pokémon Dynamically
 function renderMatchedPokemon(characters) {
     const contentRef = document.getElementById("content");
     contentRef.innerHTML = ""; // Clear previous content
+
+    let found = false; // created to check if Poke was found, boolean used later to display message (or not)
 
     for (let i = 0; i < pokeArray.length; i++) {
         if (pokeArray[i].name.toLowerCase().includes(characters)) {
             contentRef.innerHTML += getPokeCardTemplate(pokeArray, i); // Render matching cards
             renderTypes(i); // Render types for the matched Pokémon
+            found = true; // Set flag to true
         }
+    }
+
+    // If no Pokémon match the search query, display a "not found" message
+    if (!found) {
+        contentRef.innerHTML = getNotFoundTemplate();
     }
 }
 
-// Set Background Color of Cards Based on Type
-function setCardBacground(type, cardCounter) {
-    const contentRef = document.getElementById(`pokemon${cardCounter + 1}`);
-    if (contentRef) {
-        contentRef.classList.add(`${type.type.name}`); // Add class for type-based styling
-    }
-}
+

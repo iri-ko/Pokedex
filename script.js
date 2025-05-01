@@ -221,7 +221,7 @@ async function fetchOverlayPokemonData(pokedexId) {
         const speciesData = await speciesResponse.json(); //for flavor text
 
         renderAbout(pokemonData, speciesData);
-        //renderStats(pokemonData);
+        renderStats(pokemonData);
     } catch (error) {
         console.error("Error fetching Pokémon data:", error);
     }
@@ -240,7 +240,6 @@ function getFlavorText(speciesData) {
     return entry.flavor_text.replace(/[\n\f]/g, " "); // if found, replace flavor text but remove weird formatting thingies
 }
 
-
 function getHeight(pokemonData) {
     const pokeHeight = pokemonData.height / 10;
     return pokeHeight
@@ -251,6 +250,11 @@ function getweight(pokemonData) {
     return pokeWeight
 }
 
+
+function renderStats(pokemonData){
+    const overlayAboutRef = document.getElementById('overlay-stats-content');
+    overlayAboutRef.innerHTML = getOverlayStatsTemplate(pokemonData)
+}
 
 // #endregion
 

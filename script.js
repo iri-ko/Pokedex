@@ -1,6 +1,7 @@
 // Global Variables
 let pokeArray = []; // Global Pokémon array
 let offset = 20; // Offset for pagination or fetching Pokémon
+let currentId = 1; // needed for cycling through overlays
 
 // Initialize the Application
 async function init() {
@@ -23,7 +24,7 @@ async function renderPokeCards() {
     hideButton();
 
     try {
-        const delay = new Promise(resolve => setTimeout(resolve, 1000)); // Artificial delay for loading spinner
+        const delay = new Promise(resolve => setTimeout(resolve, 2000)); // Artificial delay for loading spinner
         await Promise.all([fetchGlobalPokemonArray(), delay]); // Fetch Pokémon and wait
         await renderCards(pokeArray); // Render all cards
     } catch (error) {
@@ -176,6 +177,7 @@ function showOverlay(pokeApiIndex){
     overlayRef.classList.add('d-flex');
     overlayRef.addEventListener('click', handleOverlayClick); //Needed for event bubbling for closing func
     renderDynamicInfoBox(pokeApiIndex);
+    document.body.style.overflow = "hidden"; // Disable scrolling
 }
 
 function closeOverlay(){
@@ -183,7 +185,9 @@ function closeOverlay(){
     overlayRef.classList.remove('d-flex');
     overlayRef.classList.add('d-none');
     overlayRef.removeEventListener('click', handleOverlayClick); //remove cause not neccesary when invisible
+    document.body.style.overflow = "auto"; // Enable scrolling again
 }
+
 
 function handleOverlayClick(event) {
     if (event.target.closest('#poke-info')) {
@@ -200,6 +204,7 @@ function renderDynamicInfoBox(pokeApiIndex){
     changeOverlayName(pokeApiIndex);
     changeMainOverlayImg(pokeApiIndex); 
     fetchOverlayPokemonData(pokeApiIndex + 1);
+    changeShinyIMG(pokeApiIndex);
 };
 
 function changeOverlayName(nameIndex){
@@ -256,6 +261,11 @@ function renderStats(pokemonData){
     overlayAboutRef.innerHTML = getOverlayStatsTemplate(pokemonData)
 }
 
+function changeShinyIMG(shinyIndex){
+    const mainImgRef = document.getElementById('shinyIMG');
+    mainImgRef.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${shinyIndex+1}.png`
+}
+
 // #endregion
 
 // #region category visibility
@@ -291,6 +301,31 @@ function showShiny(){
 
 // #endregion
 
+function showNext() {
+    if (currentId < pokeArray.length - 1) { 
+        currentId++; // Now correctly starts from the selected Pokémon
+        fetchOverlayPokemonData(currentId);
+        changeOverlayName(currentId-1);
+        changeMainOverlayImg(currentId-1);
+        changeShinyIMG(currentId-1);
+    }
+}
+
+function selectPokemon(pokedexId) {
+    currentId = pokedexId; // Set the correct ID
+    fetchOverlayPokemonData(currentId);
+}
+
+
+function showPrevious() {
+    if (currentId > 1) {
+        currentId--;
+        changeOverlayName(currentId -1 );
+        changeMainOverlayImg(currentId -1); 
+        fetchOverlayPokemonData(currentId);
+        changeShinyIMG(currentId -1);
+    }
+}
 
 
 // #endregion

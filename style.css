@@ -231,7 +231,8 @@ main {
                 }
 
                 .poke-img {
-                    height: 120px;
+                   width: 150px;
+                   max-height: 150px;
                 }
             }
             .card-bg {

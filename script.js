@@ -146,7 +146,6 @@ function trimInputValue() {
     return query;
 }
 
-// Render Matching Pokémon Dynamically
 // Render Matching PoTémon Dynamically
 function renderMatchedPokemon(characters) {
     const contentRef = document.getElementById("content");
@@ -171,11 +170,12 @@ function renderMatchedPokemon(characters) {
 
 // #region overlay
 
-function showOverlay(){
+function showOverlay(pokeApiIndex){
     const overlayRef = document.getElementById('overlay');
     overlayRef.classList.remove('d-none');
     overlayRef.classList.add('d-flex');
     overlayRef.addEventListener('click', handleOverlayClick); //Needed for event bubbling for closing func
+    renderDynamicInfoBox(pokeApiIndex);
 }
 
 function closeOverlay(){
@@ -187,12 +187,105 @@ function closeOverlay(){
 
 function handleOverlayClick(event) {
     if (event.target.closest('#poke-info')) {
-        return; // Do nothing if the user clicked inside
+        return; // Do nothing if the user clicked inside box
     }
 
     // Step 3: Close the overlay if the click was outside
     closeOverlay();
 }
+
+// #region dynamic overlay info
+
+function renderDynamicInfoBox(pokeApiIndex){
+    changeOverlayName(pokeApiIndex);
+    changeMainOverlayImg(pokeApiIndex); 
+    fetchOverlayPokemonData(pokeApiIndex + 1);
+};
+
+function changeOverlayName(nameIndex){
+    const nameRef = document.getElementById('overlay-name');
+    nameRef.innerHTML=`${pokeArray[nameIndex].name}`
+}
+
+function changeMainOverlayImg(mainImgIndex){
+    const mainImgRef = document.getElementById('overlay-img-main');
+    mainImgRef.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${mainImgIndex+1}.png`
+}
+
+async function fetchOverlayPokemonData(pokedexId) {
+    try {
+        const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokedexId}`);
+        const pokemonData = await pokemonResponse.json(); //for number infos
+
+        const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokedexId}`);
+        const speciesData = await speciesResponse.json(); //for flavor text
+
+        renderAbout(pokemonData, speciesData);
+        //renderStats(pokemonData);
+    } catch (error) {
+        console.error("Error fetching Pokémon data:", error);
+    }
+}
+
+function renderAbout(pokemonData, speciesData){
+    const overlayAboutRef = document.getElementById('overlay-info-div');
+    overlayAboutRef.innerHTML = getOverlayAboutTemplate(pokemonData, speciesData);
+}
+
+function getFlavorText(speciesData) {
+    const entry = speciesData.flavor_text_entries.find(e => e.language.name === "en");
+    //seraches English language flavor text
+    if (!entry) return "No description available."; // if not found, display this
+
+    return entry.flavor_text.replace(/[\n\f]/g, " "); // if found, replace flavor text but remove weird formatting thingies
+}
+
+
+function getHeight(pokemonData) {
+    const pokeHeight = pokemonData.height / 10;
+    return pokeHeight
+}
+
+function getweight(pokemonData) {
+    const pokeWeight = pokemonData.weight / 10;
+    return pokeWeight
+}
+
+
+// #endregion
+
+// #region category visibility
+
+function showAbout(){
+    const infoRef = document.getElementById('pokeinfo-content');
+    const statsRef = document.getElementById('pokeinfo-stats');
+    const shinyRef = document.getElementById('pokeinfo-shiny');
+    infoRef.classList.remove('d-none');
+    statsRef.classList.add('d-none');
+    shinyRef.classList.add('d-none');
+}
+
+function showStats(){
+    const infoRef = document.getElementById('pokeinfo-content');
+    const statsRef = document.getElementById('pokeinfo-stats');
+    const shinyRef = document.getElementById('pokeinfo-shiny');
+    infoRef.classList.add('d-none');
+    statsRef.classList.remove('d-none');
+    shinyRef.classList.add('d-none');
+
+}
+
+function showShiny(){
+        const infoRef = document.getElementById('pokeinfo-content');
+        const statsRef = document.getElementById('pokeinfo-stats');
+        const shinyRef = document.getElementById('pokeinfo-shiny');
+        infoRef.classList.add('d-none');
+        statsRef.classList.add('d-none');
+        shinyRef.classList.remove('d-none');
+    
+}
+
+// #endregion
 
 
 

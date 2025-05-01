@@ -359,6 +359,7 @@ footer {
             padding: 10px 60px;
 
             h4 {
+                text-transform: uppercase;
                 font-size: 32px;
             }
 

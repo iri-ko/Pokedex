@@ -1,5 +1,5 @@
 function getPokeCardTemplate(pkeList, pIndex) {
-    return `<div onclick="showOverlay()" id="pokemon${pIndex + 1}" class="poke-card">
+    return `<div onclick="showOverlay(${pIndex})" id="pokemon${pIndex + 1}" class="poke-card">
                 <div class="card-top">
                     <h2>${pkeList[pIndex].name}</h2>
                     <span>#${pIndex + 1}</span>
@@ -21,4 +21,23 @@ function getTypeTemplate(typeObject) {
 
 function getNotFoundTemplate(){
     return `<p class="not-found">Pokémon not found</p>`;
+}
+
+
+function getOverlayAboutTemplate(pokemonData, speciesData){
+    return `<div class="flavor-text">
+                                    ${getFlavorText(speciesData)}
+                                </div>
+                                <div class="info-points">
+                                    <span>Pokédex-ID:</span>
+                                    <span>#${pokemonData.id}</span>
+                                </div>
+                                <div class="info-points">
+                                    <span>Height</span>
+                                    <span>${getHeight(pokemonData)}m</span>
+                                </div>
+                                <div class="info-points">
+                                    <span>Weight:</span>
+                                    <span>${getweight(pokemonData)}kg</span>
+                                </div>`
 }

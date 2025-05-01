@@ -119,6 +119,7 @@
             <div id="poke-info" class="info-sheet">
                 <div id="overlay-poke" class="left">
                     <img
+                        id="overlay-img-main"
                         class="overlay-poke-img"
                         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
                         alt=""
@@ -131,35 +132,19 @@
                     </div>
 
                     <div id="info" class="info-div">
-                        <h4>BULBASAUR</h4>
+                        <h4 id="overlay-name">BULBASAUR</h4>
 
                         <div
-                            id="pokeinfo-content1"
-                            class="pokeinfo-content-info d-none"
+                            id="pokeinfo-content"
+                            class="pokeinfo-content-info"
                         >
                             <div id="navi" class="navigation">
                                 <div class="navi-text-highlight">About</div>
-                                <div class="navi-text">Stats</div>
-                                <div class="navi-text">Evolution</div>
+                                <div onclick="showStats()" class="navi-text">Stats</div>
+                                <div onclick="showShiny()"class="navi-text">Shiny</div>
                             </div>
-                            <div class="overlay-info">
-                                <div class="flavor-text">
-                                    A strange seed was planted on its back at
-                                    birth. The plant sprouts and grows with this
-                                    POKéMON
-                                </div>
-                                <div class="info-points">
-                                    <span>Pokédex-ID:</span>
-                                    <span>#0001</span>
-                                </div>
-                                <div class="info-points">
-                                    <span>Height:</span>
-                                    <span>0.7m</span>
-                                </div>
-                                <div class="info-points">
-                                    <span>Weight:</span>
-                                    <span>6.9kg</span>
-                                </div>
+                            <div id="overlay-info-div" class="overlay-info">
+                                <!--RENDER VIA JS-->
                             </div>
                         </div>
 
@@ -168,9 +153,9 @@
                             class="pokeinfo-content-info d-none"
                         >
                             <div id="navi" class="navigation">
-                                <div class="navi-text">About</div>
+                                <div onclick="showAbout()" class="navi-text">About</div>
                                 <div class="navi-text-highlight">Stats</div>
-                                <div class="navi-text">Evolution</div>
+                                <div onclick="showShiny()" class="navi-text">Shiny</div>
                             </div>
                             <div class="overlay-stats">
                                 <div class="stats-container">
@@ -281,12 +266,12 @@
 
                         <div
                             id="pokeinfo-shiny"
-                            class="pokeinfo-content-info"
+                            class="pokeinfo-content-info d-none"
                         >
                             <div id="navi" class="navigation">
-                                <div class="navi-text">About</div>
-                                <div class="navi-text">Stats</div>
-                                <div class="navi-text-highlight">Shiny</div>
+                                <div onclick="showAbout()" class="navi-text">About</div>
+                                <div onclick="showStats()" class="navi-text">Stats</div>
+                                <div class="navi-text-highlight ">Shiny</div>
                             </div>
                             <div class="overlay-shiny">
 

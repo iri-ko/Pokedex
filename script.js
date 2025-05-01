@@ -1,31 +1,27 @@
-let pokeArray = []; // Global Pokémon array
-let offset = 20; // Offset for pagination or fetching Pokémon
-let currentId = 1; // needed for cycling through overlays
+let pokeArray = [];
+let offset = 20;
+let currentId = 1;
 
-// Initialize the Application
 async function init() {
-    await fetchGlobalPokemonArray(); // Populate the global Pokémon array
-    renderPokeCards(); // Render the initial batch of Pokémon cards
+    await fetchGlobalPokemonArray();
+    renderPokeCards();
 }
 
-// Fetch and Store the Global Pokémon Array
 async function fetchGlobalPokemonArray() {
     try {
-        pokeArray = await fetchPokemonData(offset, 0); // Fetch Pokémon data and assign to global array
+        pokeArray = await fetchPokemonData(offset, 0);
     } catch (error) {
         console.error("Failed to fetch Pokémon data:", error);
     }
 }
 
-// Render All Pokémon Cards
 async function renderPokeCards() {
     showSpinner();
     hideButton();
-
     try {
-        const delay = new Promise((resolve) => setTimeout(resolve, 2000)); // Artificial delay for loading spinner
-        await Promise.all([fetchGlobalPokemonArray(), delay]); // Fetch Pokémon and wait
-        await renderCards(pokeArray); // Render all cards
+        const delay = new Promise((resolve) => setTimeout(resolve, 2000));
+        await Promise.all([fetchGlobalPokemonArray(), delay]);
+        await renderCards(pokeArray);
     } catch (error) {
         console.error("An error occurred while rendering cards:", error);
     } finally {
@@ -34,7 +30,6 @@ async function renderPokeCards() {
     }
 }
 
-// Utility Functions for UI Feedback
 function showSpinner() {
     const spinnerRef = document.getElementById("spinner");
     spinnerRef.style.display = "block";
@@ -55,7 +50,6 @@ function showButton() {
     buttonRef.style.display = "block";
 }
 
-// Fetch Pokémon Data from API
 async function fetchPokemonData(limit, offset) {
     const pokeAPI = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
     try {
@@ -64,37 +58,34 @@ async function fetchPokemonData(limit, offset) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        return data.results; // Array of basic Pokémon data
+        return data.results;
     } catch (error) {
         console.error("Failed to fetch Pokémon data:", error);
     }
 }
 
-// Render Pokémon Cards
 async function renderCards(pkeList) {
     const contentRef = document.getElementById("content");
-    contentRef.innerHTML = ""; // Clear previous content
+    contentRef.innerHTML = "";
 
     for (let pIndex = 0; pIndex < pkeList.length; pIndex++) {
-        contentRef.innerHTML += getPokeCardTemplate(pkeList, pIndex); // Generate cards with template
-        renderTypes(pIndex); // Render Pokémon types
+        contentRef.innerHTML += getPokeCardTemplate(pkeList, pIndex);
+        renderTypes(pIndex);
     }
-    offset += 20; // Update offset for pagination
+    offset += 20;
 }
 
-// Render Types for Each Pokémon
 async function renderTypes(counter) {
     const pokeInfo = await fetchPokemonDetails(counter);
     const typeRef = document.getElementById(`types${counter + 1}`);
-    typeRef.innerHTML = ""; // Clear existing types
+    typeRef.innerHTML = "";
 
     pokeInfo.types.forEach((typeObject) => {
-        typeRef.innerHTML += getTypeTemplate(typeObject); // Render type spans
-        setCardBacground(typeObject, counter); // Set card background based on type
+        typeRef.innerHTML += getTypeTemplate(typeObject);
+        setCardBacground(typeObject, counter);
     });
 }
 
-// Fetch Detailed Pokémon Information
 async function fetchPokemonDetails(counter) {
     const infoAPI = `https://pokeapi.co/api/v2/pokemon/${counter + 1}`;
     try {
@@ -103,97 +94,77 @@ async function fetchPokemonDetails(counter) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const typeInfo = await response.json();
-        return typeInfo; // Return detailed Pokémon data
+        return typeInfo;
     } catch (error) {
         console.error("Failed to fetch Pokémon details:", error);
     }
 }
 
-// Set Background Color of Cards Based on Type
 function setCardBacground(type, cardCounter) {
     const contentRef = document.getElementById(`pokemon${cardCounter + 1}`);
     if (contentRef) {
-        contentRef.classList.add(`${type.type.name}`); // Add class for type-based styling
+        contentRef.classList.add(`${type.type.name}`);
     }
 }
 
-// Search Pokémon Functionality
 function searchPokemon() {
     const usableInput = trimInputValue();
-
-    // If the input is empty, load the original first 20 Pokémon
     if (usableInput.length === 0) {
-        renderPokeCards(); // Re-render the original first 20 cards
+        renderPokeCards();
         return;
     }
-
-    // If fewer than three characters are entered, retain the current cards
     if (usableInput.length < 3) {
-        console.log("Input too short to trigger search."); // Debugging message
+        console.log("Input too short to trigger search.");
         return;
     }
-
-    // Render matched Pokémon for valid input
     renderMatchedPokemon(usableInput);
 }
 
-// Trim and Format User Input
 function trimInputValue() {
     const inputRef = document.getElementById("search-input");
     const query = inputRef.value.trim().toLowerCase();
     return query;
 }
 
-// Render Matching PoTémon Dynamically
 function renderMatchedPokemon(characters) {
     const contentRef = document.getElementById("content");
-    contentRef.innerHTML = ""; // Clear previous content
-
-    let found = false; // created to check if Poke was found, boolean used later to display message (or not)
-
+    contentRef.innerHTML = "";
+    let found = false;
     for (let i = 0; i < pokeArray.length; i++) {
         if (pokeArray[i].name.toLowerCase().includes(characters)) {
-            contentRef.innerHTML += getPokeCardTemplate(pokeArray, i); // Render matching cards
-            renderTypes(i); // Render types for the matched Pokémon
-            found = true; // Set flag to true
+            contentRef.innerHTML += getPokeCardTemplate(pokeArray, i);
+            renderTypes(i);
+            found = true;
         }
     }
-
-    // If no Pokémon match the search, display a "not found" message
     if (!found) {
         contentRef.innerHTML = getNotFoundTemplate();
     }
 }
 
-// #region overlay
-
 function showOverlay(pokeApiIndex) {
     const overlayRef = document.getElementById("overlay");
     overlayRef.classList.remove("d-none");
     overlayRef.classList.add("d-flex");
-    overlayRef.addEventListener("click", handleOverlayClick); //Needed for event bubbling for closing func
+    overlayRef.addEventListener("click", handleOverlayClick);
     renderDynamicInfoBox(pokeApiIndex);
-    document.body.style.overflow = "hidden"; // Disable scrolling
+    document.body.style.overflow = "hidden";
 }
 
 function closeOverlay() {
     const overlayRef = document.getElementById("overlay");
     overlayRef.classList.remove("d-flex");
     overlayRef.classList.add("d-none");
-    overlayRef.removeEventListener("click", handleOverlayClick); //remove cause not neccesary when invisible
-    document.body.style.overflow = "auto"; // Enable scrolling again
+    overlayRef.removeEventListener("click", handleOverlayClick);
+    document.body.style.overflow = "auto";
 }
 
 function handleOverlayClick(event) {
     if (event.target.closest("#poke-info")) {
-        return; // Do nothing if the user clicked inside box
+        return;
     }
-
-    // Step 3: Close the overlay if the click was outside
     closeOverlay();
 }
-
-// #region dynamic overlay info
 
 function renderDynamicInfoBox(pokeApiIndex) {
     changeOverlayName(pokeApiIndex);
@@ -220,12 +191,10 @@ async function fetchOverlayPokemonData(pokedexId) {
             `https://pokeapi.co/api/v2/pokemon/${pokedexId}`
         );
         const pokemonData = await pokemonResponse.json(); //for number infos
-
         const speciesResponse = await fetch(
             `https://pokeapi.co/api/v2/pokemon-species/${pokedexId}`
         );
         const speciesData = await speciesResponse.json(); //for flavor text
-
         renderAbout(pokemonData, speciesData);
         renderStats(pokemonData);
     } catch (error) {
@@ -245,10 +214,9 @@ function getFlavorText(speciesData) {
     const entry = speciesData.flavor_text_entries.find(
         (e) => e.language.name === "en"
     );
-    //seraches English language flavor text
-    if (!entry) return "No description available."; // if not found, display this
+    if (!entry) return "No description available.";
 
-    return entry.flavor_text.replace(/[\n\f]/g, " "); // if found, replace flavor text but remove weird formatting thingies
+    return entry.flavor_text.replace(/[\n\f]/g, " ");
 }
 
 function getHeight(pokemonData) {
@@ -272,10 +240,6 @@ function changeShinyIMG(shinyIndex) {
         shinyIndex + 1
     }.png`;
 }
-
-// #endregion
-
-// #region category visibility
 
 function showAbout() {
     const infoRef = document.getElementById("pokeinfo-content");
@@ -304,11 +268,9 @@ function showShiny() {
     shinyRef.classList.remove("d-none");
 }
 
-// #endregion
-
 function showNext() {
     if (currentId < pokeArray.length - 1) {
-        currentId++; // Now correctly starts from the selected Pokémon
+        currentId++;
         fetchOverlayPokemonData(currentId);
         changeOverlayName(currentId - 1);
         changeMainOverlayImg(currentId - 1);
@@ -317,7 +279,7 @@ function showNext() {
 }
 
 function selectPokemon(pokedexId) {
-    currentId = pokedexId; // Set the correct ID
+    currentId = pokedexId;
     fetchOverlayPokemonData(currentId);
 }
 
@@ -330,5 +292,3 @@ function showPrevious() {
         changeShinyIMG(currentId - 1);
     }
 }
-
-// #endregion

@@ -29,6 +29,7 @@ html {
 }
 
 .img-hover-white:hover {
+    cursor: pointer;
     filter: drop-shadow(0 0 10px #ffffff);
 }
 
@@ -298,8 +299,6 @@ footer {
     }
 }
 
-
-
 .overlay-div {
     position: fixed;
     top: 0;
@@ -307,23 +306,191 @@ footer {
     background-color: rgba(0, 0, 0, 0.644);
     height: 100dvh;
     width: 100%;
-    display: flex;
     align-items: center;
     justify-content: center;
 
     .info-sheet {
         z-index: 10001;
-        height: 60vh;
-        width: 60dvw;
-        background-color: rgb(255, 0, 0);
-
+        height: 50vh;
+        width: 55dvw;
+        background-color: #4b4b4b;
+        border: solid 5px #840000;
         border-radius: 20px;
-        border: white double 10px;
+        display: flex;
+    }
+
+    .left {
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        z-index: 10001;
+        height: 100%;
+        width: 350px;
+        background-color: #303030;
+        z-index: 10002;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .overlay-poke-img {
+            width: 250px;
+        }
+    }
+
+    .info-right {
+        height: 100%;
+        width: 100%;
+
+        .close {
+            height: 50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 10px;
+
+            img {
+                height: 40px;
+            }
+        }
+
+        .info-div {
+            padding: 10px 60px;
+
+            h4 {
+                font-size: 32px;
+            }
+
+            .pokeinfo-content-info {
+                margin-top: 30px;
+
+                .navigation {
+                    font-size: 20px;
+                    display: flex;
+                    justify-content: flex-start;
+
+                    .navi-text-highlight {
+                        border-top: white solid 1px;
+                        border-right: white solid 1px;
+                        border-left: white solid 1px;
+                        padding: 5px 60px;
+                    }
+
+                    .navi-text {
+                        border-bottom: white solid 1px;
+                        padding: 5px 50px;
+                    }
+
+                    .navi-text:hover {
+                        cursor: pointer;
+                        background-color: #840000;
+                    }
+                }
+            }
+
+            .overlay-info {
+                height: 25vh;
+                width: 100%;
+                border-left: white solid 1px;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                font-size: 16px;
+                padding: 50px;
+                gap: 20px;
+
+                .info-points {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                }
+            }
+
+            .overlay-stats {
+                height: 25vh;
+                width: 100%;
+                padding: 50px;
+                font-size: 16px;
+                border-left: white solid 1px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 15px;
+                overflow: auto;
+
+                .stats-row {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    margin-bottom: 10px;
+                }
+
+                .stat-label {
+                    font-weight: bold;
+                    width: 60%;
+                }
+
+                .svg-bar {
+                    margin-left: 20px;
+                    width: 100%;
+                    height: 10px;
+                    border-radius: 5px;
+                }
+
+                .bar-bg {
+                    fill: #272727;
+                }
+
+                .bar-fill {
+                    fill: #00af09;
+                }
+
+                .total {
+                    margin-top: 30px;
+                    font-size: 20px;
+                    font-weight: bold;
+                    text-decoration: underline;
+                    text-align: left;
+                }
+            }
+            
+            .overlay-shiny {
+                height: 25vh;
+                width: 100%;
+                padding: 50px;
+                border-left: white solid 1px;
+                display: flex;
+                justify-content: center;
+
+                img {
+                    height: 100%;
+                }
+            }
+
+            .arrow-div {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 20px;
+
+                img {
+                    height: 40px;
+                }
+            }
+        }
     }
 }
 
 .d-none {
     display: none;
+}
+
+.d-flex {
+    display: flex;
 }
 
 .not-found {

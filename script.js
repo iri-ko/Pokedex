@@ -147,7 +147,7 @@ function trimInputValue() {
 }
 
 // Render Matching Pokémon Dynamically
-// Render Matching Pokémon Dynamically
+// Render Matching PoTémon Dynamically
 function renderMatchedPokemon(characters) {
     const contentRef = document.getElementById("content");
     contentRef.innerHTML = ""; // Clear previous content
@@ -162,10 +162,38 @@ function renderMatchedPokemon(characters) {
         }
     }
 
-    // If no Pokémon match the search query, display a "not found" message
+    // If no Pokémon match the search, display a "not found" message
     if (!found) {
         contentRef.innerHTML = getNotFoundTemplate();
     }
 }
 
 
+// #region overlay
+
+function showOverlay(){
+    const overlayRef = document.getElementById('overlay');
+    overlayRef.classList.remove('d-none');
+    overlayRef.classList.add('d-flex');
+    overlayRef.addEventListener('click', handleOverlayClick); //Needed for event bubbling for closing func
+}
+
+function closeOverlay(){
+    const overlayRef = document.getElementById('overlay');
+    overlayRef.classList.remove('d-flex');
+    overlayRef.classList.add('d-none');
+    overlayRef.removeEventListener('click', handleOverlayClick); //remove cause not neccesary when invisible
+}
+
+function handleOverlayClick(event) {
+    if (event.target.closest('#poke-info')) {
+        return; // Do nothing if the user clicked inside
+    }
+
+    // Step 3: Close the overlay if the click was outside
+    closeOverlay();
+}
+
+
+
+// #endregion

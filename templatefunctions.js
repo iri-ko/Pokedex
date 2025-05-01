@@ -1,5 +1,5 @@
 function getPokeCardTemplate(pkeList, pIndex) {
-    return `<div id="pokemon${pIndex + 1}" class="poke-card">
+    return `<div onclick="showOverlay()" id="pokemon${pIndex + 1}" class="poke-card">
                 <div class="card-top">
                     <h2>${pkeList[pIndex].name}</h2>
                     <span>#${pIndex + 1}</span>

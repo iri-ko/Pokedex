@@ -18,6 +18,10 @@ html {
 
 .paddinglr-60 {
     padding: 0px 6rem;
+
+    @media (max-width: 750px) {
+        padding: 0px 2rem;
+    }
 }
 
 .bg-gray {
@@ -134,6 +138,12 @@ header {
             .logo {
                 height: 10rem;
             }
+
+            span {
+                @media (max-width: 620px) {
+                    display: none;
+                }
+            }
         }
 
         .search {
@@ -151,6 +161,10 @@ header {
 
             .mag-class {
                 height: 40px;
+
+                @media (max-width: 400px) {
+                    display: none;
+                }
             }
         }
     }
@@ -169,12 +183,29 @@ main {
     align-items: center;
     flex-direction: column;
 
+    @media (max-width: 1350px) {
+        padding: 2rem;
+    }
+
     .main-div {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         gap: 80px;
         padding-bottom: 80px;
+
+        @media (max-width: 1350px) {
+            gap: 20px;
+            justify-content: space-evenly;
+        }
+
+        @media (max-width: 1320px) {
+            justify-content: center;
+        }
+
+        @media (max-width: 994px) {
+            gap: 50px;
+        }
 
         .poke-card {
             display: flex;
@@ -186,6 +217,11 @@ main {
             padding: 20px;
             box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.486);
             z-index: 0;
+
+            @media (max-width: 1320px) {
+                height: 300px;
+                width: 300px;
+            }
 
             .card-top {
                 display: flex;
@@ -231,8 +267,12 @@ main {
                 }
 
                 .poke-img {
-                   width: 150px;
-                   max-height: 150px;
+                    width: 150px;
+                    max-height: 150px;
+
+                    @media (max-width: 1320px) {
+                        width: 100px;
+                    }
                 }
             }
             .card-bg {
@@ -248,6 +288,11 @@ main {
                 border-bottom-left-radius: 10px;
                 border-top-left-radius: 10px;
                 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.486);
+
+                @media (max-width: 1320px) {
+                    height: 300px;
+                    width: 300px;
+                }
             }
         }
         .poke-card:hover {
@@ -318,6 +363,26 @@ footer {
         border: solid 5px #840000;
         border-radius: 20px;
         display: flex;
+
+        @media (max-width: 1370px) {
+            width: 70%;
+        }
+
+        @media (max-width: 1000px) {
+            flex-direction: column;
+            height: auto;
+        }
+
+        @media (max-width: 670px) {
+            width: 85%;
+            height: 80%;
+        }
+
+        @media (max-width: 555px) {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .left {
@@ -334,8 +399,22 @@ footer {
         align-items: center;
         justify-content: center;
 
+        @media (max-width: 1570px) {
+            width: 200px;
+        }
+        @media (max-width: 1000px) {
+            width: 100%;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 20%;
+            border-bottom-left-radius: 20%;
+        }
+
         .overlay-poke-img {
             width: 250px;
+
+            @media (max-width: 1570px) {
+                width: 150px;
+            }
         }
     }
 
@@ -353,15 +432,27 @@ footer {
 
             img {
                 height: 40px;
+
+                @media (max-width: 760px) {
+                    height: 24px;
+                }
             }
         }
 
         .info-div {
             padding: 10px 60px;
 
+            @media (max-width: 1370px) {
+                padding: 10px 20px;
+            }
+
             h4 {
                 text-transform: uppercase;
                 font-size: 32px;
+
+                @media (max-width: 760px) {
+                    font-size: 24px;
+                }
             }
 
             .pokeinfo-content-info {
@@ -377,11 +468,26 @@ footer {
                         border-right: white solid 1px;
                         border-left: white solid 1px;
                         padding: 5px 60px;
+
+                        @media (max-width: 760px) {
+                            padding: 5px 10px;
+                        }
+
+                        @media (max-width: 760px) {
+                            padding: 5px 10%;
+                        }
+                        @media (max-width: 760px) {
+                            padding: 5px 10px;
+                        }
                     }
 
                     .navi-text {
                         border-bottom: white solid 1px;
                         padding: 5px 50px;
+
+                        @media (max-width: 760px) {
+                            padding: 5px 10px;
+                        }
                     }
 
                     .navi-text:hover {
@@ -403,6 +509,11 @@ footer {
                 padding: 50px;
                 gap: 20px;
 
+                @media (max-width: 500px) {
+                    padding: 10px 10px 10px 30px;
+                    align-content: flex-start;
+                }
+
                 .info-points {
                     display: flex;
                     align-items: center;
@@ -421,7 +532,16 @@ footer {
                 align-items: center;
                 justify-content: flex-start;
                 gap: 15px;
-                overflow: auto;
+                margin-bottom: 50px;
+
+                @media (max-width: 520px) {
+                    overflow: auto;
+                }
+
+                @media (max-width: 530px) {
+                    padding: 20px 10px 10px 30px;
+                    align-items: flex-start;
+                }
 
                 .stats-row {
                     display: flex;
@@ -429,6 +549,12 @@ footer {
                     justify-content: space-between;
                     width: 100%;
                     margin-bottom: 10px;
+
+                    @media (max-width: 522px) {
+                        gap: 10px;
+                        align-items: center;
+                        margin-bottom: 20px;
+                    }
                 }
 
                 .stat-label {
@@ -441,6 +567,10 @@ footer {
                     width: 100%;
                     height: 10px;
                     border-radius: 5px;
+
+                    @media (max-width: 360px) {
+                        display: none;
+                    }
                 }
 
                 .bar-bg {
@@ -459,7 +589,7 @@ footer {
                     text-align: left;
                 }
             }
-            
+
             .overlay-shiny {
                 height: 25vh;
                 width: 100%;
@@ -481,6 +611,10 @@ footer {
 
                 img {
                     height: 40px;
+
+                    @media (max-width: 500px) {
+                        height: 30px;
+                    }
                 }
             }
         }

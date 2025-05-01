@@ -1,4 +1,3 @@
-// Global Variables
 let pokeArray = []; // Global Pokémon array
 let offset = 20; // Offset for pagination or fetching Pokémon
 let currentId = 1; // needed for cycling through overlays
@@ -24,7 +23,7 @@ async function renderPokeCards() {
     hideButton();
 
     try {
-        const delay = new Promise(resolve => setTimeout(resolve, 2000)); // Artificial delay for loading spinner
+        const delay = new Promise((resolve) => setTimeout(resolve, 2000)); // Artificial delay for loading spinner
         await Promise.all([fetchGlobalPokemonArray(), delay]); // Fetch Pokémon and wait
         await renderCards(pokeArray); // Render all cards
     } catch (error) {
@@ -89,7 +88,7 @@ async function renderTypes(counter) {
     const typeRef = document.getElementById(`types${counter + 1}`);
     typeRef.innerHTML = ""; // Clear existing types
 
-    pokeInfo.types.forEach(typeObject => {
+    pokeInfo.types.forEach((typeObject) => {
         typeRef.innerHTML += getTypeTemplate(typeObject); // Render type spans
         setCardBacground(typeObject, counter); // Set card background based on type
     });
@@ -138,8 +137,6 @@ function searchPokemon() {
     renderMatchedPokemon(usableInput);
 }
 
-
-
 // Trim and Format User Input
 function trimInputValue() {
     const inputRef = document.getElementById("search-input");
@@ -168,29 +165,27 @@ function renderMatchedPokemon(characters) {
     }
 }
 
-
 // #region overlay
 
-function showOverlay(pokeApiIndex){
-    const overlayRef = document.getElementById('overlay');
-    overlayRef.classList.remove('d-none');
-    overlayRef.classList.add('d-flex');
-    overlayRef.addEventListener('click', handleOverlayClick); //Needed for event bubbling for closing func
+function showOverlay(pokeApiIndex) {
+    const overlayRef = document.getElementById("overlay");
+    overlayRef.classList.remove("d-none");
+    overlayRef.classList.add("d-flex");
+    overlayRef.addEventListener("click", handleOverlayClick); //Needed for event bubbling for closing func
     renderDynamicInfoBox(pokeApiIndex);
     document.body.style.overflow = "hidden"; // Disable scrolling
 }
 
-function closeOverlay(){
-    const overlayRef = document.getElementById('overlay');
-    overlayRef.classList.remove('d-flex');
-    overlayRef.classList.add('d-none');
-    overlayRef.removeEventListener('click', handleOverlayClick); //remove cause not neccesary when invisible
+function closeOverlay() {
+    const overlayRef = document.getElementById("overlay");
+    overlayRef.classList.remove("d-flex");
+    overlayRef.classList.add("d-none");
+    overlayRef.removeEventListener("click", handleOverlayClick); //remove cause not neccesary when invisible
     document.body.style.overflow = "auto"; // Enable scrolling again
 }
 
-
 function handleOverlayClick(event) {
-    if (event.target.closest('#poke-info')) {
+    if (event.target.closest("#poke-info")) {
         return; // Do nothing if the user clicked inside box
     }
 
@@ -200,29 +195,35 @@ function handleOverlayClick(event) {
 
 // #region dynamic overlay info
 
-function renderDynamicInfoBox(pokeApiIndex){
+function renderDynamicInfoBox(pokeApiIndex) {
     changeOverlayName(pokeApiIndex);
-    changeMainOverlayImg(pokeApiIndex); 
+    changeMainOverlayImg(pokeApiIndex);
     fetchOverlayPokemonData(pokeApiIndex + 1);
     changeShinyIMG(pokeApiIndex);
-};
-
-function changeOverlayName(nameIndex){
-    const nameRef = document.getElementById('overlay-name');
-    nameRef.innerHTML=`${pokeArray[nameIndex].name}`
 }
 
-function changeMainOverlayImg(mainImgIndex){
-    const mainImgRef = document.getElementById('overlay-img-main');
-    mainImgRef.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${mainImgIndex+1}.png`
+function changeOverlayName(nameIndex) {
+    const nameRef = document.getElementById("overlay-name");
+    nameRef.innerHTML = `${pokeArray[nameIndex].name}`;
+}
+
+function changeMainOverlayImg(mainImgIndex) {
+    const mainImgRef = document.getElementById("overlay-img-main");
+    mainImgRef.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
+        mainImgIndex + 1
+    }.png`;
 }
 
 async function fetchOverlayPokemonData(pokedexId) {
     try {
-        const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokedexId}`);
+        const pokemonResponse = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${pokedexId}`
+        );
         const pokemonData = await pokemonResponse.json(); //for number infos
 
-        const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokedexId}`);
+        const speciesResponse = await fetch(
+            `https://pokeapi.co/api/v2/pokemon-species/${pokedexId}`
+        );
         const speciesData = await speciesResponse.json(); //for flavor text
 
         renderAbout(pokemonData, speciesData);
@@ -232,13 +233,18 @@ async function fetchOverlayPokemonData(pokedexId) {
     }
 }
 
-function renderAbout(pokemonData, speciesData){
-    const overlayAboutRef = document.getElementById('overlay-info-div');
-    overlayAboutRef.innerHTML = getOverlayAboutTemplate(pokemonData, speciesData);
+function renderAbout(pokemonData, speciesData) {
+    const overlayAboutRef = document.getElementById("overlay-info-div");
+    overlayAboutRef.innerHTML = getOverlayAboutTemplate(
+        pokemonData,
+        speciesData
+    );
 }
 
 function getFlavorText(speciesData) {
-    const entry = speciesData.flavor_text_entries.find(e => e.language.name === "en");
+    const entry = speciesData.flavor_text_entries.find(
+        (e) => e.language.name === "en"
+    );
     //seraches English language flavor text
     if (!entry) return "No description available."; // if not found, display this
 
@@ -247,67 +253,66 @@ function getFlavorText(speciesData) {
 
 function getHeight(pokemonData) {
     const pokeHeight = pokemonData.height / 10;
-    return pokeHeight
+    return pokeHeight;
 }
 
 function getweight(pokemonData) {
     const pokeWeight = pokemonData.weight / 10;
-    return pokeWeight
+    return pokeWeight;
 }
 
-
-function renderStats(pokemonData){
-    const overlayAboutRef = document.getElementById('overlay-stats-content');
-    overlayAboutRef.innerHTML = getOverlayStatsTemplate(pokemonData)
+function renderStats(pokemonData) {
+    const overlayAboutRef = document.getElementById("overlay-stats-content");
+    overlayAboutRef.innerHTML = getOverlayStatsTemplate(pokemonData);
 }
 
-function changeShinyIMG(shinyIndex){
-    const mainImgRef = document.getElementById('shinyIMG');
-    mainImgRef.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${shinyIndex+1}.png`
+function changeShinyIMG(shinyIndex) {
+    const mainImgRef = document.getElementById("shinyIMG");
+    mainImgRef.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${
+        shinyIndex + 1
+    }.png`;
 }
 
 // #endregion
 
 // #region category visibility
 
-function showAbout(){
-    const infoRef = document.getElementById('pokeinfo-content');
-    const statsRef = document.getElementById('pokeinfo-stats');
-    const shinyRef = document.getElementById('pokeinfo-shiny');
-    infoRef.classList.remove('d-none');
-    statsRef.classList.add('d-none');
-    shinyRef.classList.add('d-none');
+function showAbout() {
+    const infoRef = document.getElementById("pokeinfo-content");
+    const statsRef = document.getElementById("pokeinfo-stats");
+    const shinyRef = document.getElementById("pokeinfo-shiny");
+    infoRef.classList.remove("d-none");
+    statsRef.classList.add("d-none");
+    shinyRef.classList.add("d-none");
 }
 
-function showStats(){
-    const infoRef = document.getElementById('pokeinfo-content');
-    const statsRef = document.getElementById('pokeinfo-stats');
-    const shinyRef = document.getElementById('pokeinfo-shiny');
-    infoRef.classList.add('d-none');
-    statsRef.classList.remove('d-none');
-    shinyRef.classList.add('d-none');
-
+function showStats() {
+    const infoRef = document.getElementById("pokeinfo-content");
+    const statsRef = document.getElementById("pokeinfo-stats");
+    const shinyRef = document.getElementById("pokeinfo-shiny");
+    infoRef.classList.add("d-none");
+    statsRef.classList.remove("d-none");
+    shinyRef.classList.add("d-none");
 }
 
-function showShiny(){
-        const infoRef = document.getElementById('pokeinfo-content');
-        const statsRef = document.getElementById('pokeinfo-stats');
-        const shinyRef = document.getElementById('pokeinfo-shiny');
-        infoRef.classList.add('d-none');
-        statsRef.classList.add('d-none');
-        shinyRef.classList.remove('d-none');
-    
+function showShiny() {
+    const infoRef = document.getElementById("pokeinfo-content");
+    const statsRef = document.getElementById("pokeinfo-stats");
+    const shinyRef = document.getElementById("pokeinfo-shiny");
+    infoRef.classList.add("d-none");
+    statsRef.classList.add("d-none");
+    shinyRef.classList.remove("d-none");
 }
 
 // #endregion
 
 function showNext() {
-    if (currentId < pokeArray.length - 1) { 
+    if (currentId < pokeArray.length - 1) {
         currentId++; // Now correctly starts from the selected Pokémon
         fetchOverlayPokemonData(currentId);
-        changeOverlayName(currentId-1);
-        changeMainOverlayImg(currentId-1);
-        changeShinyIMG(currentId-1);
+        changeOverlayName(currentId - 1);
+        changeMainOverlayImg(currentId - 1);
+        changeShinyIMG(currentId - 1);
     }
 }
 
@@ -316,16 +321,14 @@ function selectPokemon(pokedexId) {
     fetchOverlayPokemonData(currentId);
 }
 
-
 function showPrevious() {
     if (currentId > 1) {
         currentId--;
-        changeOverlayName(currentId -1 );
-        changeMainOverlayImg(currentId -1); 
+        changeOverlayName(currentId - 1);
+        changeMainOverlayImg(currentId - 1);
         fetchOverlayPokemonData(currentId);
-        changeShinyIMG(currentId -1);
+        changeShinyIMG(currentId - 1);
     }
 }
-
 
 // #endregion

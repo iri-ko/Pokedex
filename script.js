@@ -5,6 +5,7 @@ let currentId = 1;
 async function init() {
     await fetchGlobalPokemonArray();
     renderPokeCards();
+    
 }
 
 async function fetchGlobalPokemonArray() {
@@ -171,6 +172,13 @@ function renderDynamicInfoBox(pokeApiIndex) {
     changeMainOverlayImg(pokeApiIndex);
     fetchOverlayPokemonData(pokeApiIndex + 1);
     changeShinyIMG(pokeApiIndex);
+    console.log(pokeApiIndex);
+    
+    if (pokeApiIndex === 0){
+        hideLeftArrow();
+    } else {
+        showLeftArrow();
+    }
 }
 
 function changeOverlayName(nameIndex) {
@@ -269,14 +277,17 @@ function showShiny() {
 }
 
 function showNext() {
-    if (currentId < pokeArray.length - 1) {
+    if (currentId < pokeArray.length) {
         currentId++;
         fetchOverlayPokemonData(currentId);
         changeOverlayName(currentId - 1);
         changeMainOverlayImg(currentId - 1);
         changeShinyIMG(currentId - 1);
+    } else {
+        renderPokeCards();
+        closeOverlay();
     }
-    handleLeftArrowVisibility()
+    handleLeftArrowVisibility();
 }
 
 function selectPokemon(pokedexId) {
@@ -304,7 +315,6 @@ function handleLeftArrowVisibility() {
     }
 }
 
-
 function hideLeftArrow(){
     let leftArrowRef = document.getElementById('left-arrow');
     leftArrowRef.classList.add('d-none')
@@ -312,7 +322,8 @@ function hideLeftArrow(){
 
 function showLeftArrow(){
     const leftArrowRef = document.getElementById('left-arrow');
-    leftArrowRef.classList.remove('d-none')
+    leftArrowRef.classList.remove('d-none');
+    
 }
 
 

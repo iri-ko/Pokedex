@@ -1,7 +1,7 @@
 function getPokeCardTemplate(pkeList, pIndex) {
     return `<div onclick="selectPokemon(${pIndex + 1}); showOverlay(${pIndex})" id="pokemon${pIndex + 1}" class="poke-card">
                 <div class="card-top">
-                    <h2>${pkeList[pIndex].name}</h2>
+                    <h2 id="name${pIndex + 1}">${pkeList[pIndex].name}</h2>
                     <span>#${pIndex + 1}</span>
                 </div>
                 <div class="card-bottom">

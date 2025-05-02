@@ -276,6 +276,7 @@ function showNext() {
         changeMainOverlayImg(currentId - 1);
         changeShinyIMG(currentId - 1);
     }
+    handleLeftArrowVisibility()
 }
 
 function selectPokemon(pokedexId) {
@@ -291,4 +292,28 @@ function showPrevious() {
         fetchOverlayPokemonData(currentId);
         changeShinyIMG(currentId - 1);
     }
+    handleLeftArrowVisibility(); 
 }
+
+
+function handleLeftArrowVisibility() {
+    if (currentId === 1) {
+        hideLeftArrow();
+    } else {
+        showLeftArrow();
+    }
+}
+
+
+function hideLeftArrow(){
+    let leftArrowRef = document.getElementById('left-arrow');
+    leftArrowRef.classList.add('d-none')
+}
+
+function showLeftArrow(){
+    const leftArrowRef = document.getElementById('left-arrow');
+    leftArrowRef.classList.remove('d-none')
+}
+
+
+

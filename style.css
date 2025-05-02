@@ -223,6 +223,11 @@ main {
                 width: 300px;
             }
 
+            @media (max-width: 350px) {
+                height: 280px;
+                width: 280px;
+            }
+
             .card-top {
                 display: flex;
                 align-items: center;
@@ -293,6 +298,10 @@ main {
                     height: 300px;
                     width: 300px;
                 }
+                @media (max-width: 350px) {
+                    height: 280px;
+                    width: 280px;
+                }
             }
         }
         .poke-card:hover {
@@ -357,24 +366,20 @@ footer {
 
     .info-sheet {
         z-index: 10001;
-        height: 60vh;
+        height: 500px;
         width: 55dvw;
         background-color: #4b4b4b;
         border: solid 5px #840000;
         border-radius: 20px;
         display: flex;
 
-        max-width: 1000px;
-        max-height: 500px;
-
         @media (max-width: 1370px) {
             width: 70%;
         }
 
-        @media (max-width: 1000px) {
+        @media (max-width: 1060px) {
             flex-direction: column;
-            height: auto;
-            max-height: 10000px
+            height: 700px;
         }
 
         @media (max-width: 670px) {
@@ -406,11 +411,17 @@ footer {
         @media (max-width: 1570px) {
             width: 200px;
         }
-        @media (max-width: 1000px) {
+
+        @media (max-width: 1060px) {
+            height: 150px;
             width: 100%;
-            border-top-right-radius: 0;
+            border-top-right-radius: 15px;
             border-bottom-right-radius: 20%;
             border-bottom-left-radius: 20%;
+        }
+
+        @media (max-width: 1570px) {
+            height: 40%;;
         }
 
         .overlay-poke-img {
@@ -423,7 +434,7 @@ footer {
     }
 
     .info-right {
-        height: 100%;
+        height: 200px;
         width: 100%;
         max-width: 1000px;
         max-height: 100%;
@@ -447,17 +458,18 @@ footer {
 
         .info-div {
             padding: 10px 60px;
+            height: 350px;
             max-width: 1000px;
 
-            @media (max-width: 1370px) {
-                padding: 10px 20px;
+            @media (max-width: 1060px){
+                height: 400px;
             }
 
             h4 {
                 text-transform: uppercase;
                 font-size: 32px;
 
-                @media (max-width: 760px) {
+                @media (max-width: 1060px) {
                     font-size: 24px;
                 }
             }
@@ -475,10 +487,6 @@ footer {
                         border-right: white solid 1px;
                         border-left: white solid 1px;
                         padding: 5px 60px;
-
-                        @media (max-width: 760px) {
-                            padding: 5px 10px;
-                        }
 
                         @media (max-width: 760px) {
                             padding: 5px 10%;
@@ -505,7 +513,7 @@ footer {
             }
 
             .overlay-info {
-                height: 25vh;
+                height: 230px;
                 width: 100%;
                 border-left: white solid 1px;
 
@@ -516,9 +524,17 @@ footer {
                 padding: 50px;
                 gap: 20px;
 
+                @media (max-width: 1060px) {
+                    height: 250px;
+                }
+
                 @media (max-width: 500px) {
                     padding: 10px 10px 10px 30px;
                     align-content: flex-start;
+                }
+
+                @media (max-width: 660px) {
+                    height: 260px;
                 }
 
                 .info-points {
@@ -529,8 +545,7 @@ footer {
             }
 
             .overlay-stats {
-                height: 25vh;
-                max-height: 230px;
+                height: 230px;
                 width: 100%;
                 padding: 50px;
                 font-size: 16px;
@@ -542,12 +557,23 @@ footer {
                 gap: 15px;
                 margin-bottom: 50px;
 
+                @media (max-width: 1060px) {
+                    overflow: auto;
+                    height: 250px;
+                    gap: 30px;
+                }
+
+
                 @media (max-width: 1000px) {
-                   max-height: 500px;
+                    max-height: 500px;
                 }
 
                 @media (max-width: 700px) {
                     overflow: auto;
+                }
+
+                @media (max-width: 660px) {
+                    height: 260px;
                 }
 
                 @media (max-width: 530px) {
@@ -603,35 +629,45 @@ footer {
             }
 
             .overlay-shiny {
-                height: 25vh;
+                height: 230px;
                 width: 100%;
-                max-height: 200px;
                 padding: 50px;
                 border-left: white solid 1px;
                 display: flex;
+                
                 justify-content: center;
-
-                 @media (max-width: 1000px) {
-                   max-height: auto;
+                @media (max-width: 1060px) {
+                    overflow: auto;
+                    height: 250px;
                 }
+
+                @media (max-width: 660px) {
+                    height: 260px;
+                }
+
 
                 img {
                     height: 100%;
                 }
             }
+        }
+        .arrow-div {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 60px 20px;
+            gap: 20px;
 
-            .arrow-div {
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                gap: 20px;
+            @media (max-width: 500px) {
+            
+            }
+            
+            height: 50px;
+            img {
+                height: 40px;
 
-                img {
-                    height: 40px;
-
-                    @media (max-width: 500px) {
-                        height: 30px;
-                    }
+                @media (max-width: 500px) {
+                    height: 30px;
                 }
             }
         }
